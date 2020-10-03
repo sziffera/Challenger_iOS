@@ -73,9 +73,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                             let username = snapshot.value as? String
                             AppSettings[.username] = username
                         }
-                        
                     }
-                    
                     self.generator.notificationOccurred(.success)
                     self.performSegue(withIdentifier: "StartMainScreen", sender: nil)
                 }

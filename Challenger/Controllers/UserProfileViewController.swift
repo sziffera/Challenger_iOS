@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import RealmSwift
 
 class UserProfileViewController: UIViewController {
     
@@ -57,7 +58,11 @@ class UserProfileViewController: UIViewController {
     @objc func logOutButtonPressed(sender: UIBarButtonItem) {
         do {
             try
-                Auth.auth().signOut()
+            Auth.auth().signOut()
+            let realm = try! Realm()
+            try! realm.write {
+                realm.deleteAll()
+            }
             AppSettings[.username] = nil
             self.performSegue(withIdentifier: K.Segues.signOut, sender: nil)
             

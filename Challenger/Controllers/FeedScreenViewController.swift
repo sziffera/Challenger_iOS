@@ -19,7 +19,7 @@ class FeedScreenViewController: UIViewController {
     var ref: DatabaseReference!
     var challengeId: String = ""
     var realm = try! Realm()
-    var challenges: Results<Challenge>!
+    var challenges: Results<Challenge>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,11 +38,12 @@ class FeedScreenViewController: UIViewController {
         else {
             fetchChallenges()
         }
-        
+
         //tableView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: K.cellNib, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
+
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -53,7 +54,7 @@ class FeedScreenViewController: UIViewController {
         if identifier == K.Segues.challengeDetails {
             if let indexPath = tableView.indexPathForSelectedRow {
                 print("inside")
-                ChallengeManager.shared.challengeId = challenges[indexPath.row].firebaseId
+                ChallengeManager.shared.challengeId = challenges![indexPath.row].firebaseId
                 tableView.deselectRow(at: indexPath, animated: true)
             }
         }
@@ -62,7 +63,7 @@ class FeedScreenViewController: UIViewController {
     func loadChallenges() {
         challenges = realm.objects(Challenge.self)
         print("loadChallenges() called")
-        print(challenges.count)
+        print(challenges?.count ?? 0)
         self.tableView.reloadData()
     }
     
@@ -121,9 +122,7 @@ class FeedScreenViewController: UIViewController {
 
 extension FeedScreenViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        print(challenges.count)
-        return challenges.count
+        return challenges?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,7 +130,7 @@ extension FeedScreenViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath) as! ChallengeTableViewCell
         cell.delegate = self
         
-        let challenge = challenges[indexPath.row]
+        let challenge = challenges![indexPath.row]
         
         cell.titleLabel.text = challenge.name
         cell.distanceLabel.text = "Distance: " + challenge.distance.format(f: ".1") + "km"
@@ -158,8 +157,8 @@ extension FeedScreenViewController: SwipeTableViewCellDelegate {
 
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             // handle action by updating model with deletion
-            let challengeName = self.challenges[indexPath.row].name
-            ChallengeManager.shared.delete(challenge: self.challenges[indexPath.row])
+            let challengeName = self.challenges![indexPath.row].name
+            ChallengeManager.shared.delete(challenge: self.challenges![indexPath.row])
             Utils.showToast(controller: self, message: "Challenge \(challengeName) was deleted successfully!", seconds: 2)
             //haptic feedback
             let generator = UINotificationFeedbackGenerator()

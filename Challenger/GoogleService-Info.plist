@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>309165407883-3uor791uh5fbffvspcbe5dbvev3s86ht.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.309165407883-3uor791uh5fbffvspcbe5dbvev3s86ht</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>309165407883-ovdj1he98cm8l1hdcokcjqsle7alggok.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA5aXnJZ6tUZzIHTW08axBKun7xzpxP5xY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>309165407883</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.sziffer.challenger</string>
+	<key>PROJECT_ID</key>
+	<string>challenger-fd197</string>
+	<key>STORAGE_BUCKET</key>
+	<string>challenger-fd197.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:309165407883:ios:32fb8a636ef8745a231e8e</string>
+	<key>DATABASE_URL</key>
+	<string>https://challenger-fd197.firebaseio.com</string>
+</dict>
+</plist>

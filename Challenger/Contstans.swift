@@ -69,6 +69,13 @@ struct K {
         static let minus = "ColorMinus"
         static let plus = "ColorPlus"
         static let lightOpacity = "ColorLightOpacity"
+        
+        ///heart rate colors
+        static let moderate = "ColorModerate"
+        static let weightControl = "ColorWeightControl"
+        static let aerobic = "ColorAerobic"
+        static let anaerobic = "ColorAnaerobic"
+        static let vo2max = "ColorVo2max"
     }
     struct Firebase {
         

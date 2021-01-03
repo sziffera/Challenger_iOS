@@ -28,7 +28,7 @@ struct Utils {
         }
     }
 }
-
+// MARK:- Extensions for Double class
 extension Double {
     func format(f: String) -> String {
         return String(format: "%.\(f)f", self)
@@ -68,13 +68,16 @@ extension Double {
         return String(format: "%02i:%02i", minutes, seconds)
     }
 }
-
+// MARK:-Notification
 extension Notification.Name {
     static let challengeDataUpdate = Notification.Name("challengeDataUpdate")
     static let challangeMapUpdate = Notification.Name("challengeMapUpdate")
     static let cadenceDataUpdated =
         Notification.Name("cadenceDataUpdated")
+    static let hearRateDataUpdated = Notification.Name("heartRateDataUpdated")
+    
 }
+// MARK:-Moving Average
 struct MovingAverage {
   var period: Int
   var numbers = [Double]()

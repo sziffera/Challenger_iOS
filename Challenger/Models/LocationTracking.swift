@@ -134,6 +134,7 @@ class LocationTracking: NSObject {
             challenge.route.append(objectsIn: self.route ?? [])
             
             ChallengeManager.shared.save(challenge: challenge)
+            
         }
         timer = nil
     }

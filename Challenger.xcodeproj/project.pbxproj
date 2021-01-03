@@ -54,7 +54,6 @@
 		E2C9457C2516061300A65E71 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9457B2516061300A65E71 /* Challenge.swift */; };
 		E2C9457E251674BA00A65E71 /* FirebaseMyLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9457D251674BA00A65E71 /* FirebaseMyLocation.swift */; };
 		E2C94580251675D500A65E71 /* FirebaseChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9457F251675D500A65E71 /* FirebaseChallenge.swift */; };
-		E2F2FEBC25A1CD9F00900CAF /* PrivateKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F2FEBB25A1CD9F00900CAF /* PrivateKeys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,7 +106,6 @@
 		E2C9457B2516061300A65E71 /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		E2C9457D251674BA00A65E71 /* FirebaseMyLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMyLocation.swift; sourceTree = "<group>"; };
 		E2C9457F251675D500A65E71 /* FirebaseChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseChallenge.swift; sourceTree = "<group>"; };
-		E2F2FEBB25A1CD9F00900CAF /* PrivateKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeys.swift; sourceTree = "<group>"; };
 		E2F82457E2B2ABC1456EDBF9 /* Pods_Challenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Challenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCFEE0854A3750D2F7BDEDC /* Pods-Challenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Challenger.debug.xcconfig"; path = "Target Support Files/Pods-Challenger/Pods-Challenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -176,7 +174,6 @@
 				E2871D2524C037150058EAA3 /* Models */,
 				E29FBB7E24F2A50100A6A756 /* Contstans.swift */,
 				E25C589724F53C6A005AC278 /* Utils.swift */,
-				E2F2FEBB25A1CD9F00900CAF /* PrivateKeys.swift */,
 			);
 			path = Challenger;
 			sourceTree = "<group>";
@@ -400,7 +397,6 @@
 				E25C589824F53C6A005AC278 /* Utils.swift in Sources */,
 				E24D21F924FA62750029A6EF /* UserManager.swift in Sources */,
 				E28ABF65252DDD32009FDECD /* DetailTableViewCell.swift in Sources */,
-				E2F2FEBC25A1CD9F00900CAF /* PrivateKeys.swift in Sources */,
 				E247938024C4A68400238678 /* InitChallengeRecordingViewController.swift in Sources */,
 				E2BCC876251E168100F608D2 /* ChallengeManager.swift in Sources */,
 				E25ADFD5251928F70058888D /* ChallengeDetailsViewController.swift in Sources */,

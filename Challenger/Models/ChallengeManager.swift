@@ -130,4 +130,13 @@ class ChallengeManager {
     func cadenceSensorDidConnect() {
         cadenceSensorConnected = true
     }
+    
+    func heartRateSensorDidDisConnect() {
+        heartRateSensorConnected = false
+    }
+    func cadenceSensorDidDisConnect() {
+        cadenceSensorConnected = false
+    }
+    
+    
 }

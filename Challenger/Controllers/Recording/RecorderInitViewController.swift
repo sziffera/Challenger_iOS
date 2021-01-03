@@ -44,8 +44,6 @@ class RecorderInitViewController: UIViewController {
         mapView.delegate = self
         mapView.showsUserLocation = true
         
-        SpeedCadenceSensorConnection.shared.viewController = self
-        
         if let lastActivity = AppSettings.stringValue(.activityType) {
             activityTypeChooserButton.setImage(UIImage(named: lastActivity), for: .normal)
             activityCounter = activities.firstIndex(of: lastActivity) ?? 0

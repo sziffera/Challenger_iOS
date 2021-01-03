@@ -11,6 +11,19 @@ import CoreBluetooth
 
 import UIKit
 
+
+//MARK:- CadenceSensorConnectionDelegate
+protocol CadenceSensorConnectionDelegate: class {
+    func didStartCadenceSensorScan()
+    func didConnectToCadenceSensor()
+}
+
+// MARK:- CadenceSensorUpdateDelegate
+protocol CadenceSensorUpdateDelegate: class {
+    func didUpdateRpm(_ rpm: Double)
+}
+
+
 class SpeedCadenceSensorConnection: NSObject {
     
     private var centralManager: CBCentralManager!
@@ -19,7 +32,9 @@ class SpeedCadenceSensorConnection: NSObject {
     
     var connected: Bool = false
     
-    var label: UILabel? = nil
+    weak var updateDelegate: CadenceSensorUpdateDelegate?
+    weak var connectionDelegate: CadenceSensorConnectionDelegate?
+    
     var viewController: UIViewController!
     
     private var rpm = 0.0
@@ -46,6 +61,12 @@ class SpeedCadenceSensorConnection: NSObject {
         }
     }
     
+    func disconnect() {
+        
+        centralManager.cancelPeripheralConnection(cadencePeripheral)
+        ChallengeManager.shared.cadenceSensorDidDisConnect()
+    }
+    
 }
 
 extension SpeedCadenceSensorConnection: CBCentralManagerDelegate {
@@ -66,6 +87,7 @@ extension SpeedCadenceSensorConnection: CBCentralManagerDelegate {
             print("central.state is .poweredOn")
             
             centralManager.scanForPeripherals(withServices: [cadenceServiceCBUUID])
+            connectionDelegate?.didStartCadenceSensorScan()
             
         @unknown default:
             print("Unknown")
@@ -81,11 +103,8 @@ extension SpeedCadenceSensorConnection: CBCentralManagerDelegate {
     }
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("connected")
-        Utils.showToast(controller: viewController, message: "Cadence sensor successfully connected!", seconds: 2)
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.success)
+        connectionDelegate?.didConnectToCadenceSensor()
         cadencePeripheral.discoverServices([cadenceServiceCBUUID])
-        
     }
 }
 
@@ -127,14 +146,18 @@ extension SpeedCadenceSensorConnection: CBPeripheralDelegate {
         case cadenceSensorLocationCharecteristicCBUUID:
             print(characteristic.value ?? "no value")
         case cadenceSensorMeasurmentCharacteristicCBUUID:
-            let _ = decodeCSC(from: characteristic)
+            decodeCSC(from: characteristic)
             
         default:
             print("Unhandled Characteristic UUID: \(characteristic.uuid)")
         }
     }
     
-    private func decodeCSC(from characteristic: CBCharacteristic) -> Int {
+    private func updateUI(rpm: Double) {
+        updateDelegate?.didUpdateRpm(rpm)
+    }
+    
+    private func decodeCSC(from characteristic: CBCharacteristic) {
         
         /*
          
@@ -188,7 +211,7 @@ extension SpeedCadenceSensorConnection: CBPeripheralDelegate {
          
          return -1
          */
-        guard let characteristicData = characteristic.value else { return -1 }
+        guard let characteristicData = characteristic.value else { return }
         
        
         
@@ -226,12 +249,8 @@ extension SpeedCadenceSensorConnection: CBPeripheralDelegate {
             prevCumCrankRev = cumCrankRev
             prevCrankTime = lastCrankTime
             if rpm != 0 {
-                uiRpm = rpm
-                NotificationCenter.default.post(name: .cadenceDataUpdated, object: rpm)
-                //print(uiRpm)
+                updateUI(rpm: rpm)
             }
-            return Int(uiRpm)
         }
-        return -1
     }
 }

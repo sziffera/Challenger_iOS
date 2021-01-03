@@ -437,7 +437,6 @@
                         <outlet property="differenceLabel" destination="ATC-0H-VmM" id="TS6-0C-12k"/>
                         <outlet property="distanceLabel" destination="Y23-qT-S4D" id="tI3-mJ-GR3"/>
                         <outlet property="durationLabel" destination="4Ch-mz-IFS" id="NvF-12-Kgf"/>
-                        <outlet property="example" destination="o1D-fG-41G" id="EiE-8Q-b5I"/>
                         <outlet property="heartRateImageView" destination="wPE-cF-2gt" id="qvb-Ub-5Fr"/>
                         <outlet property="heartRatelabel" destination="8od-cN-Eua" id="YOi-Ax-Y2m"/>
                         <outlet property="maxSpeedLabel" destination="pXE-W6-PoN" id="3SB-LV-lVC"/>
@@ -711,16 +710,77 @@
                     <view key="view" contentMode="scaleToFill" id="1KU-Jw-17A">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vox-7D-lDU">
+                                <rect key="frame" x="12" y="123" width="351" height="33"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <state key="normal" title="Connect Heart Rate Sensor">
+                                    <color key="titleColor" name="ColorDarkBlue"/>
+                                </state>
+                                <connections>
+                                    <action selector="heartRateConnectionButtonPressed:" destination="6HD-rv-vCO" eventType="touchUpInside" id="dVS-hO-e7X"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="OMw-VQ-C7d">
+                                <rect key="frame" x="169" y="164" width="37" height="37"/>
+                                <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WDL-R8-pZd">
+                                <rect key="frame" x="12" y="314" width="351" height="33"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <state key="normal" title="Connect Cadence Sensor">
+                                    <color key="titleColor" name="ColorDarkBlue"/>
+                                </state>
+                                <connections>
+                                    <action selector="cadenceSensorConnectionButtonPressed:" destination="6HD-rv-vCO" eventType="touchUpInside" id="Uql-QG-4qh"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="LgV-gc-D5A">
+                                <rect key="frame" x="169" y="355" width="37" height="37"/>
+                                <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please move the sensor to wake it up!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J1R-4E-WX9">
+                                <rect key="frame" x="43.5" y="408" width="288" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" name="ColorDarkBlue"/>
+                        <constraints>
+                            <constraint firstItem="LgV-gc-D5A" firstAttribute="centerX" secondItem="1KU-Jw-17A" secondAttribute="centerX" id="4qS-L7-3XC"/>
+                            <constraint firstItem="WDL-R8-pZd" firstAttribute="leading" secondItem="PbB-s6-00u" secondAttribute="leading" constant="12" id="BgB-Mo-DlP"/>
+                            <constraint firstItem="WDL-R8-pZd" firstAttribute="centerX" secondItem="1KU-Jw-17A" secondAttribute="centerX" id="E50-xm-kKq"/>
+                            <constraint firstItem="PbB-s6-00u" firstAttribute="trailing" secondItem="vox-7D-lDU" secondAttribute="trailing" constant="12" id="Lg1-ie-4Oq"/>
+                            <constraint firstItem="vox-7D-lDU" firstAttribute="top" secondItem="PbB-s6-00u" secondAttribute="top" constant="27" id="LoT-zU-2c2"/>
+                            <constraint firstItem="vox-7D-lDU" firstAttribute="centerX" secondItem="1KU-Jw-17A" secondAttribute="centerX" id="Pr9-cH-ioL"/>
+                            <constraint firstItem="LgV-gc-D5A" firstAttribute="top" secondItem="WDL-R8-pZd" secondAttribute="bottom" constant="8" id="QWQ-B8-AEx"/>
+                            <constraint firstItem="vox-7D-lDU" firstAttribute="leading" secondItem="PbB-s6-00u" secondAttribute="leading" constant="12" id="T6j-wi-Vfg"/>
+                            <constraint firstItem="OMw-VQ-C7d" firstAttribute="top" secondItem="vox-7D-lDU" secondAttribute="bottom" constant="8" id="i2g-or-U4H"/>
+                            <constraint firstItem="PbB-s6-00u" firstAttribute="trailing" secondItem="WDL-R8-pZd" secondAttribute="trailing" constant="12" id="iVT-zm-8bP"/>
+                            <constraint firstItem="WDL-R8-pZd" firstAttribute="top" secondItem="OMw-VQ-C7d" secondAttribute="bottom" constant="113" id="jXe-1i-OpK"/>
+                            <constraint firstItem="OMw-VQ-C7d" firstAttribute="centerX" secondItem="1KU-Jw-17A" secondAttribute="centerX" id="pI1-JL-0oI"/>
+                            <constraint firstItem="J1R-4E-WX9" firstAttribute="top" secondItem="LgV-gc-D5A" secondAttribute="bottom" constant="16" id="ur2-4f-S5I"/>
+                            <constraint firstItem="J1R-4E-WX9" firstAttribute="centerX" secondItem="1KU-Jw-17A" secondAttribute="centerX" id="xHg-3M-Ghg"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="PbB-s6-00u"/>
                     </view>
                     <navigationItem key="navigationItem" title="Bluetooth" id="JVU-5n-yaB">
                         <barButtonItem key="backBarButtonItem" title="Back" id="sRu-pl-Smj"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="cadenceLoader" destination="LgV-gc-D5A" id="hL8-12-fHl"/>
+                        <outlet property="cadenceSensorConnectionButton" destination="WDL-R8-pZd" id="ncf-VA-90P"/>
+                        <outlet property="cadenceSensorInfoLabel" destination="J1R-4E-WX9" id="u7K-kW-ehv"/>
+                        <outlet property="heartRateConnectionButton" destination="vox-7D-lDU" id="CoY-mB-Rhx"/>
+                        <outlet property="heartRateLoader" destination="OMw-VQ-C7d" id="xDe-kQ-kMv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0W3-Jm-wey" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7244" y="753.69458128078816"/>
+            <point key="canvasLocation" x="7244" y="753.37331334332839"/>
         </scene>
         <!--Indoor Training-->
         <scene sceneID="vFg-CL-49x">

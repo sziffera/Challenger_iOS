@@ -49,6 +49,7 @@ class ChallengeMapViewController: UIViewController {
      */
     
     func createPolyline() {
+        // TODO: do it on other thread
         var locations = Array<CLLocationCoordinate2D>()
         guard let currentChallenge = ChallengeManager.shared.getChallenge() else {
             return

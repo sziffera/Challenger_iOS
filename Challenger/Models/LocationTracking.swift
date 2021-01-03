@@ -10,12 +10,14 @@ import Foundation
 import CoreLocation
 import UIKit
 
+
 class LocationTracking: NSObject {
     
     static var sharedInstance = LocationTracking()
     private var filter: Bool = true
     
     private var locationManager: CLLocationManager = CLLocationManager()
+    
     
     private var route: [MyLocation]?
     private var lastLocation: CLLocation?
@@ -25,18 +27,24 @@ class LocationTracking: NSObject {
     
     private var start: Double = 0.0
     
-    private var distance: Double = 0.0
-    private var duration: Double = 0.0
+    private var distance: Double = 0.0 /// in metres
+    private var duration: Double = 0.0 /// in sec
     private var durationHelper: Double = 0.0
-    private var altitude: Double = 0.0
-    private var speed: Double = 0.0
+    private var altitude: Double = 0.0 /// in metres
+    private var speed: Double = 0.0 /// in m/s
     private var difference: Double = 0.0
-    private var maxSpeed: Double = 0.0
+    private var maxSpeed: Double = 0.0 /// in m/s
+    //private var cadence: Int = 0 /// in rpm
+    
+    private var movingAverage: MovingAverage = MovingAverage(period: 4)
     
     private var myLocation: MyLocation?
     
     //helps calculating the difference - avoid looping the whole array
     private var counter: Int = 0
+    
+    private let whenToSaveLocation = 4 ///no need to save every location
+    private var locationsGot = 0 ///counts the number of locations
     
     private var timer: RepeatingTimer? = RepeatingTimer(timeInterval: 1)
     
@@ -44,6 +52,7 @@ class LocationTracking: NSObject {
     private var zeroSpeed: Bool = false
     private var zeroSpeedPauseTime: Double = 0.0
     
+    ///indicates whether a notification should be sent or not based on app state
     private var shouldUpdateView = true
     
     //setting the limit for auto pause in m/s appr. 2km/h
@@ -52,10 +61,6 @@ class LocationTracking: NSObject {
     override private init() {
         
         super.init()
-        
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 1.5
-        locationManager.activityType = .fitness
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -74,18 +79,14 @@ class LocationTracking: NSObject {
         distance = 0
         start = Date.timeIntervalSinceReferenceDate
         
-        
-        if (CLLocationManager.locationServicesEnabled()) {
-            locationManager.requestAlwaysAuthorization()
-            locationManager.requestWhenInUseAuthorization()
-        }
-        
+        //Location manager init
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = 1.5
+        locationManager.activityType = .fitness
+        locationManager.requestWhenInUseAuthorization()
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
-        
-        locationManager.delegate = self
-        
-        
     }
     
     // MARK: Recording handling
@@ -94,18 +95,18 @@ class LocationTracking: NSObject {
         print("startTracking() called")
         if CLLocationManager.locationServicesEnabled() {
             locationManager.startUpdatingLocation()
+            start = Date.timeIntervalSinceReferenceDate
+            zeroSpeed = false
         } else {
             showLocationServicesNotEnabledAlert()
         }
     }
     
-    func stopTracking() {
+    func pauseTracking() {
         locationManager.stopUpdatingLocation()
-        timer = nil
+        durationHelper += Date.timeIntervalSinceReferenceDate - start
+        zeroSpeed = true
     }
-    
-    
-    
     
     // MARK: helper methods
     
@@ -113,12 +114,40 @@ class LocationTracking: NSObject {
         return polylineRoute
     }
     
+    /**
+     Saves the challenge to the Realm database
+     In this way, the challenge can be removed easily and the details can be fetched in Details view
+     */
+    func finishRecording() {
+        
+        DispatchQueue.main.async {
+            let avgSpeed = (self.distance / self.duration) * 3.6
+            print(avgSpeed)
+            let now = Date()
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone.current
+            formatter.dateFormat = "yyyy-MM-dd. HH:mm"
+            let date = formatter.string(from: now)
+            
+            let firebaseId = UUID().uuidString
+            let challenge = Challenge(name: "test realm", date: date, firebaseId: firebaseId, averageSpeed: avgSpeed, maxSpeed: self.maxSpeed*3.6, distance: self.distance / 1000, duration: self.duration, type: AppSettings.stringValue(.activityType) ?? "cycling")
+            challenge.route.append(objectsIn: self.route ?? [])
+            
+            ChallengeManager.shared.save(challenge: challenge)
+        }
+        timer = nil
+    }
+    
     private func updateUI() {
         
         if myLocation != nil {
             //creating the notification for UI
             let currentTime = Date.timeIntervalSinceReferenceDate - start
-            let myLocationDict: NSDictionary = ["data": myLocation!, "time": currentTime]
+            let myLocationDict: NSDictionary = [K.Notification.data: myLocation!,
+                                                K.Notification.time: currentTime + durationHelper,
+                                                K.Notification.zeroSpeed: zeroSpeed,
+                                                K.Notification.maxSpeed: maxSpeed]
+            
             NotificationCenter.default.post(name: .challengeDataUpdate, object: myLocationDict)
         }
     }
@@ -138,6 +167,16 @@ class LocationTracking: NSObject {
         shouldUpdateView = true
     }
     
+    //    FOR LATER USAGE
+    //    // MARK: cadence data notification
+    //    @objc func cadenceDataUpdated(_ notification: NSNotification) {
+    //
+    //        guard let cadence = notification.object as? Double else {return}
+    //
+    //
+    //
+    //    }
+    //
     
 }
 // MARK: Location handling
@@ -149,27 +188,50 @@ extension LocationTracking: CLLocationManagerDelegate {
             //handling new location
             if lastLocation != nil {
                 handleNewLocation(newLocation)
+                //updating the location
+                
             }
-            //updating the location
             lastLocation = newLocation
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            self.locationManager.requestAlwaysAuthorization()
         }
     }
     
     private func handleNewLocation(_ newLocation: CLLocation) {
         
-        let elapsedTimeInSec = Date.timeIntervalSinceReferenceDate - start
-        distance += newLocation.distance(from: lastLocation!)
+        if newLocation.speed > maxSpeed && newLocation.speed < 40 {
+            maxSpeed = newLocation.speed
+        }
+        if AppSettings.boolValue(.autoPause) {
+            if newLocation.speed < autoPauseLimit {
+                
+                if !zeroSpeed {
+                    zeroSpeedPauseTime = Date.timeIntervalSinceReferenceDate
+                }
+                zeroSpeed = true
+            } else {
+                
+                if zeroSpeed {
+                    durationHelper -= Date.timeIntervalSinceReferenceDate - zeroSpeedPauseTime
+                }
+                zeroSpeed = false
+            }
+        }
         
-        myLocation = MyLocation(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude, distance: distance, time: elapsedTimeInSec, speed: newLocation.speed, altitude: newLocation.altitude)
-        
-        polylineRoute?.append(CLLocationCoordinate2D(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude))
-        route?.append(myLocation!)
-        
+        if !zeroSpeed {
+            
+            //the durationHelper is negative if any pause event occured, so must be added, not substracted
+            duration = Date.timeIntervalSinceReferenceDate - start + durationHelper
+            distance += newLocation.distance(from: lastLocation!)
+            
+            let correctedAltitude = movingAverage.addNumber(newLocation.altitude)
+            
+            myLocation = MyLocation(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude, distance: distance, time: duration, speed: newLocation.speed, altitude: correctedAltitude)
+            
+            if locationsGot % whenToSaveLocation == 0 {
+                print("locations saved")
+                polylineRoute?.append(CLLocationCoordinate2D(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude))
+                route?.append(myLocation!)
+            }
+            locationsGot += 1
+        }
     }
 }

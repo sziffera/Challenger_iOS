@@ -13,5 +13,6 @@ class TabBarController : UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = ChallengeManager.shared.getChallenge()?.name
     }
 }

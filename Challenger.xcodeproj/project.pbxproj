@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5081880F82129A4E2389B340 /* Pods_Challenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2F82457E2B2ABC1456EDBF9 /* Pods_Challenger.framework */; };
+		E202A3DF25338243002EFDCB /* BluetoothConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E202A3DE25338243002EFDCB /* BluetoothConnectionViewController.swift */; };
 		E213611724FE2FBE005FDC3F /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E213611624FE2FBE005FDC3F /* AppSettings.swift */; };
+		E239A49825A0E48400E7D118 /* HeartRateSensorConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E239A49725A0E48400E7D118 /* HeartRateSensorConnection.swift */; };
 		E23AF4D124B4A1E400894B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23AF4D024B4A1E400894B05 /* AppDelegate.swift */; };
 		E23AF4D324B4A1E400894B05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23AF4D224B4A1E400894B05 /* SceneDelegate.swift */; };
 		E23AF4D524B4A1E400894B05 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23AF4D424B4A1E400894B05 /* LoginViewController.swift */; };
@@ -28,7 +30,7 @@
 		E255E1C524C4BEEC00EB8C0F /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E255E1C424C4BEEC00EB8C0F /* TabBarController.swift */; };
 		E25ACB7F24B4E34700B46AF3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E25ACB7E24B4E34700B46AF3 /* GoogleService-Info.plist */; };
 		E25ACB8724B4F70E00B46AF3 /* FeedScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25ACB8624B4F70E00B46AF3 /* FeedScreenViewController.swift */; };
-		E25ADFD5251928F70058888D /* ChallengeDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25ADFD4251928F70058888D /* ChallengeDetailsTableViewController.swift */; };
+		E25ADFD5251928F70058888D /* ChallengeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25ADFD4251928F70058888D /* ChallengeDetailsViewController.swift */; };
 		E25B083E24BA2845006D61DF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E25B083D24BA2845006D61DF /* MapKit.framework */; };
 		E25B084124BA31DC006D61DF /* LocationTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25B084024BA31DC006D61DF /* LocationTracking.swift */; };
 		E25C310024CD741C00DEDA97 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C30FF24CD741C00DEDA97 /* UserSettingsViewController.swift */; };
@@ -37,9 +39,13 @@
 		E25C589A24F5452E005AC278 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C589924F5452E005AC278 /* User.swift */; };
 		E26A00AF24C1D30100F4A489 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26A00AE24C1D30100F4A489 /* MapViewController.swift */; };
 		E26A00B124C1D31800F4A489 /* ChallengeRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26A00B024C1D31800F4A489 /* ChallengeRecordingViewController.swift */; };
+		E26C4A36252F990D00082CAC /* SpeedCadenceSensorConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26C4A35252F990D00082CAC /* SpeedCadenceSensorConnection.swift */; };
 		E26C75B424B5F33500A48ED5 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26C75B324B5F33500A48ED5 /* RegisterViewController.swift */; };
+		E27838ED254DD09200C88A93 /* IndoorTrainingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27838EC254DD09200C88A93 /* IndoorTrainingViewController.swift */; };
 		E2867FB624C21A920082149F /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2867FB524C21A920082149F /* InitialViewController.swift */; };
 		E2871D2224C0314E0058EAA3 /* MyLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2871D2124C0314E0058EAA3 /* MyLocation.swift */; };
+		E28ABF65252DDD32009FDECD /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28ABF63252DDD32009FDECD /* DetailTableViewCell.swift */; };
+		E28ABF66252DDD32009FDECD /* DetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E28ABF64252DDD32009FDECD /* DetailTableViewCell.xib */; };
 		E29FBB7F24F2A50100A6A756 /* Contstans.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FBB7E24F2A50100A6A756 /* Contstans.swift */; };
 		E29FBB8124F2A9E800A6A756 /* ChallengeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FBB8024F2A9E800A6A756 /* ChallengeData.swift */; };
 		E29FBB8424F2AB3600A6A756 /* ChallengeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FBB8224F2AB3600A6A756 /* ChallengeTableViewCell.swift */; };
@@ -48,11 +54,14 @@
 		E2C9457C2516061300A65E71 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9457B2516061300A65E71 /* Challenge.swift */; };
 		E2C9457E251674BA00A65E71 /* FirebaseMyLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9457D251674BA00A65E71 /* FirebaseMyLocation.swift */; };
 		E2C94580251675D500A65E71 /* FirebaseChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9457F251675D500A65E71 /* FirebaseChallenge.swift */; };
+		E2F2FEBC25A1CD9F00900CAF /* PrivateKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F2FEBB25A1CD9F00900CAF /* PrivateKeys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C6C3C7ADEABFE137F1DBCC9D /* Pods-Challenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Challenger.release.xcconfig"; path = "Target Support Files/Pods-Challenger/Pods-Challenger.release.xcconfig"; sourceTree = "<group>"; };
+		E202A3DE25338243002EFDCB /* BluetoothConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothConnectionViewController.swift; sourceTree = "<group>"; };
 		E213611624FE2FBE005FDC3F /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		E239A49725A0E48400E7D118 /* HeartRateSensorConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateSensorConnection.swift; sourceTree = "<group>"; };
 		E23AF4CD24B4A1E400894B05 /* Challenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Challenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E23AF4D024B4A1E400894B05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E23AF4D224B4A1E400894B05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,7 +83,7 @@
 		E255E1C424C4BEEC00EB8C0F /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		E25ACB7E24B4E34700B46AF3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E25ACB8624B4F70E00B46AF3 /* FeedScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedScreenViewController.swift; sourceTree = "<group>"; };
-		E25ADFD4251928F70058888D /* ChallengeDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailsTableViewController.swift; sourceTree = "<group>"; };
+		E25ADFD4251928F70058888D /* ChallengeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailsViewController.swift; sourceTree = "<group>"; };
 		E25B083D24BA2845006D61DF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E25B084024BA31DC006D61DF /* LocationTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTracking.swift; sourceTree = "<group>"; };
 		E25C30FF24CD741C00DEDA97 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
@@ -83,9 +92,13 @@
 		E25C589924F5452E005AC278 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E26A00AE24C1D30100F4A489 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		E26A00B024C1D31800F4A489 /* ChallengeRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordingViewController.swift; sourceTree = "<group>"; };
+		E26C4A35252F990D00082CAC /* SpeedCadenceSensorConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedCadenceSensorConnection.swift; sourceTree = "<group>"; };
 		E26C75B324B5F33500A48ED5 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		E27838EC254DD09200C88A93 /* IndoorTrainingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndoorTrainingViewController.swift; sourceTree = "<group>"; };
 		E2867FB524C21A920082149F /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 		E2871D2124C0314E0058EAA3 /* MyLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLocation.swift; sourceTree = "<group>"; };
+		E28ABF63252DDD32009FDECD /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
+		E28ABF64252DDD32009FDECD /* DetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailTableViewCell.xib; sourceTree = "<group>"; };
 		E29FBB7E24F2A50100A6A756 /* Contstans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contstans.swift; sourceTree = "<group>"; };
 		E29FBB8024F2A9E800A6A756 /* ChallengeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeData.swift; sourceTree = "<group>"; };
 		E29FBB8224F2AB3600A6A756 /* ChallengeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTableViewCell.swift; sourceTree = "<group>"; };
@@ -94,6 +107,7 @@
 		E2C9457B2516061300A65E71 /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		E2C9457D251674BA00A65E71 /* FirebaseMyLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMyLocation.swift; sourceTree = "<group>"; };
 		E2C9457F251675D500A65E71 /* FirebaseChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseChallenge.swift; sourceTree = "<group>"; };
+		E2F2FEBB25A1CD9F00900CAF /* PrivateKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeys.swift; sourceTree = "<group>"; };
 		E2F82457E2B2ABC1456EDBF9 /* Pods_Challenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Challenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDCFEE0854A3750D2F7BDEDC /* Pods-Challenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Challenger.debug.xcconfig"; path = "Target Support Files/Pods-Challenger/Pods-Challenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -162,6 +176,7 @@
 				E2871D2524C037150058EAA3 /* Models */,
 				E29FBB7E24F2A50100A6A756 /* Contstans.swift */,
 				E25C589724F53C6A005AC278 /* Utils.swift */,
+				E2F2FEBB25A1CD9F00900CAF /* PrivateKeys.swift */,
 			);
 			path = Challenger;
 			sourceTree = "<group>";
@@ -183,6 +198,8 @@
 				E29FBB8224F2AB3600A6A756 /* ChallengeTableViewCell.swift */,
 				E29FBB8324F2AB3600A6A756 /* ChallengeTableViewCell.xib */,
 				E25C589524F4F2EB005AC278 /* SelfSizedTableView.swift */,
+				E28ABF63252DDD32009FDECD /* DetailTableViewCell.swift */,
+				E28ABF64252DDD32009FDECD /* DetailTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -199,9 +216,10 @@
 				E247937B24C4A66900238678 /* UserProfileViewController.swift */,
 				E247937D24C4A67600238678 /* CreateChallengeViewController.swift */,
 				E255E1C424C4BEEC00EB8C0F /* TabBarController.swift */,
-				E25ADFD4251928F70058888D /* ChallengeDetailsTableViewController.swift */,
+				E25ADFD4251928F70058888D /* ChallengeDetailsViewController.swift */,
 				E2404B26251CD6D400D24144 /* ChallengeMapViewController.swift */,
 				E2404B28251CD6E500D24144 /* ChallengeChartsViewController.swift */,
+				E202A3DE25338243002EFDCB /* BluetoothConnectionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -213,6 +231,7 @@
 				E26A00B024C1D31800F4A489 /* ChallengeRecordingViewController.swift */,
 				E247937F24C4A68400238678 /* InitChallengeRecordingViewController.swift */,
 				E23DED7024C58CAB0032B4D0 /* RecorderInitViewController.swift */,
+				E27838EC254DD09200C88A93 /* IndoorTrainingViewController.swift */,
 			);
 			path = Recording;
 			sourceTree = "<group>";
@@ -230,6 +249,8 @@
 				E2BCC875251E168100F608D2 /* ChallengeManager.swift */,
 				E24F941F251722FF00CD7549 /* Firebase Model */,
 				E23FD40D25286A5D0010BBB4 /* Timer.swift */,
+				E26C4A35252F990D00082CAC /* SpeedCadenceSensorConnection.swift */,
+				E239A49725A0E48400E7D118 /* HeartRateSensorConnection.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -298,6 +319,7 @@
 				E25ACB7F24B4E34700B46AF3 /* GoogleService-Info.plist in Resources */,
 				E29FBB8524F2AB3600A6A756 /* ChallengeTableViewCell.xib in Resources */,
 				E23AF4DD24B4A1E900894B05 /* Assets.xcassets in Resources */,
+				E28ABF66252DDD32009FDECD /* DetailTableViewCell.xib in Resources */,
 				E23AF4D824B4A1E400894B05 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,23 +384,29 @@
 				E24F941E251722D200CD7549 /* LatLng.swift in Sources */,
 				E26A00AF24C1D30100F4A489 /* MapViewController.swift in Sources */,
 				E25B084124BA31DC006D61DF /* LocationTracking.swift in Sources */,
+				E239A49825A0E48400E7D118 /* HeartRateSensorConnection.swift in Sources */,
 				E25C589624F4F2EB005AC278 /* SelfSizedTableView.swift in Sources */,
 				E26C75B424B5F33500A48ED5 /* RegisterViewController.swift in Sources */,
 				E29FBB7F24F2A50100A6A756 /* Contstans.swift in Sources */,
 				E2404B27251CD6D400D24144 /* ChallengeMapViewController.swift in Sources */,
+				E27838ED254DD09200C88A93 /* IndoorTrainingViewController.swift in Sources */,
 				E29FBB8124F2A9E800A6A756 /* ChallengeData.swift in Sources */,
 				E247937C24C4A66900238678 /* UserProfileViewController.swift in Sources */,
 				E29FBB8424F2AB3600A6A756 /* ChallengeTableViewCell.swift in Sources */,
 				E2C94580251675D500A65E71 /* FirebaseChallenge.swift in Sources */,
 				E25C310024CD741C00DEDA97 /* UserSettingsViewController.swift in Sources */,
 				E2C9457C2516061300A65E71 /* Challenge.swift in Sources */,
+				E26C4A36252F990D00082CAC /* SpeedCadenceSensorConnection.swift in Sources */,
 				E25C589824F53C6A005AC278 /* Utils.swift in Sources */,
 				E24D21F924FA62750029A6EF /* UserManager.swift in Sources */,
+				E28ABF65252DDD32009FDECD /* DetailTableViewCell.swift in Sources */,
+				E2F2FEBC25A1CD9F00900CAF /* PrivateKeys.swift in Sources */,
 				E247938024C4A68400238678 /* InitChallengeRecordingViewController.swift in Sources */,
 				E2BCC876251E168100F608D2 /* ChallengeManager.swift in Sources */,
-				E25ADFD5251928F70058888D /* ChallengeDetailsTableViewController.swift in Sources */,
+				E25ADFD5251928F70058888D /* ChallengeDetailsViewController.swift in Sources */,
 				E23DED7124C58CAB0032B4D0 /* RecorderInitViewController.swift in Sources */,
 				E2871D2224C0314E0058EAA3 /* MyLocation.swift in Sources */,
+				E202A3DF25338243002EFDCB /* BluetoothConnectionViewController.swift in Sources */,
 				E247937E24C4A67600238678 /* CreateChallengeViewController.swift in Sources */,
 				E25C589A24F5452E005AC278 /* User.swift in Sources */,
 				E23AF4D324B4A1E400894B05 /* SceneDelegate.swift in Sources */,

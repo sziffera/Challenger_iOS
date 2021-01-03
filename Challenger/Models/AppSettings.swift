@@ -23,6 +23,8 @@ public enum AppSettings {
         case difference = "difference"
         case autoPause = "autoPause"
         case alwaysOnDisplay = "alwaysOnDisplay"
+        case activityType = "activityType"
+        case voiceCoachIsOn = "voiceCoach"
         
   }
 

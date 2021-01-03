@@ -36,6 +36,8 @@
 		<string>MKDirectionsModeBike</string>
 		<string>MKDirectionsModePedestrian</string>
 	</array>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Challenger needs to use Bluetooth to be able to connect to BLE devices</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Challenger needs your location to be able to track your activities</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

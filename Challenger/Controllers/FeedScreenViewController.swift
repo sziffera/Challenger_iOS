@@ -46,6 +46,13 @@ class FeedScreenViewController: UIViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        ///hidesBottomBarWhenPushed = false
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("prepare() called")
         
@@ -56,6 +63,8 @@ class FeedScreenViewController: UIViewController {
                 print("inside")
                 ChallengeManager.shared.challengeId = challenges![indexPath.row].firebaseId
                 tableView.deselectRow(at: indexPath, animated: true)
+                ChallengeManager.shared.isDiscard = false
+                self.tabBarController?.tabBar.isHidden = true
             }
         }
     }
@@ -146,7 +155,7 @@ extension FeedScreenViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         self.performSegue(withIdentifier: K.Segues.challengeDetails, sender: self)
-        
+       
     }
 }
 

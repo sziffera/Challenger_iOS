@@ -10,9 +10,7 @@ import UIKit
 
 class UserSettingsViewController: UITableViewController {
 
-    let defaults = UserDefaults.standard
-    
-    
+    @IBOutlet weak var voiceCoachEnabledSwitch: UISwitch!
     @IBOutlet weak var startStopSwitch: UISwitch!
     @IBOutlet weak var distanceSwitch: UISwitch!
     @IBOutlet weak var durationSwitch: UISwitch!
@@ -23,17 +21,14 @@ class UserSettingsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            
+        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor(named: K.Color.recording)]
+        self.navigationController?.navigationBar.tintColor = UIColor(named: K.Color.recording)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.plain, target: self, action: #selector(doneButtonPressed(sender:)))
-        doneButton.tintColor = UIColor(named: "ColorDarkBlue")
-        self.navigationItem.rightBarButtonItem = doneButton
-        self.navigationItem.titleView?.tintColor = UIColor(named: "ColorDarkBlue")
-        
+        voiceCoachEnabledSwitch.isOn = AppSettings.boolValue(.voiceCoachIsOn)
         startStopSwitch.isOn = AppSettings.boolValue(.startStop)
         autoPauseSwitch.isOn = AppSettings.boolValue(.autoPause)
         averageSpeedSwitch.isOn = AppSettings.boolValue(.averageSpeed)
@@ -42,13 +37,26 @@ class UserSettingsViewController: UITableViewController {
         alwaysOnDisplaySwitch.isOn = AppSettings.boolValue(.alwaysOnDisplay)
         distanceSwitch.isOn = AppSettings.boolValue(.distance)
         
+        setEnabledStatus()
+        
     }
     
-    @objc func doneButtonPressed(sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
+    private func setEnabledStatus() {
+        let enabled = voiceCoachEnabledSwitch.isOn
+        startStopSwitch.isEnabled = enabled
+        distanceSwitch.isEnabled = enabled
+        durationSwitch.isEnabled = enabled
+        averageSpeedSwitch.isEnabled = enabled
+        differenceSwitch.isEnabled = enabled
     }
+    
+   
     
 
+    @IBAction func voiceCoachEnabledSwitchChanged(_ sender: UISwitch) {
+        AppSettings[.voiceCoachIsOn] = voiceCoachEnabledSwitch.isOn
+        setEnabledStatus()
+    }
     @IBAction func startStopSwitchChanged(_ sender: UISwitch) {
         AppSettings[.startStop] = startStopSwitch.isOn
     }

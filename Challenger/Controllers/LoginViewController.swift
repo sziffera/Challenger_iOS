@@ -20,6 +20,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     private let generator = UINotificationFeedbackGenerator()
     private var ref: DatabaseReference!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,12 +29,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         emailAddressTextField.delegate = self
         
         signInButton.layer.cornerRadius = 5
-        
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationItem.titleView?.tintColor = .white
-        
+     
         //gradient background
         let gradientLayer = CAGradientLayer()
         

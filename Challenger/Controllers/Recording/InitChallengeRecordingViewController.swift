@@ -19,13 +19,7 @@ class InitChallengeRecordingViewController: UIViewController {
         gradientLayer.colors = [UIColor(named: "ColorDarkRed")!.cgColor,UIColor(named: "ColorDarkBlue")!.cgColor]
         gradientLayer.shouldRasterize = true
         backgroundGradientView.layer.addSublayer(gradientLayer)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         self.performSegue(withIdentifier: "StartRecordingSettings", sender: nil)
+        
     }
-    
-
-
 }

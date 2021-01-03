@@ -16,12 +16,12 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mapView.delegate = self
+        
         mapView.isZoomEnabled = true
         mapView.showsUserLocation = true
         mapView.showsCompass = true
-        
-        mapView.delegate = self
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(challengeMapUpdated(_:)), name: .challengeDataUpdate, object: nil)
         
         // Do any additional setup after loading the view.

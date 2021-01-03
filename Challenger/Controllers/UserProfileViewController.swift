@@ -21,6 +21,8 @@ class UserProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
         gradientLayer.colors = [UIColor(named: "ColorDarkRed")!.cgColor,UIColor(named: "ColorDarkBlue")!.cgColor]
@@ -30,6 +32,10 @@ class UserProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+               self.navigationController?.navigationBar.tintColor = UIColor.white
+        
         ref = Database.database().reference()
         if let currentUserId = Auth.auth().currentUser?.uid {
             
@@ -45,15 +51,21 @@ class UserProfileViewController: UIViewController {
             }
         }
         let logOutButton = UIBarButtonItem(title: "Log-out", style: UIBarButtonItem.Style.plain, target: self, action: #selector(logOutButtonPressed(sender:)))
-        logOutButton.tintColor = UIColor(named: K.Color.darkBlue)
+        ///logOutButton.tintColor = UIColor(named: K.Color.darkBlue)
         self.navigationItem.rightBarButtonItem = logOutButton
         
         
         let settingsButton = UIBarButtonItem(title: "Settings", style: UIBarButtonItem.Style.plain, target: self, action: #selector(settingsButtonPressed(sender:)))
-        settingsButton.tintColor = UIColor(named: K.Color.darkBlue)
+        ///settingsButton.tintColor = UIColor(named: K.Color.darkBlue)
         self.navigationItem.leftBarButtonItem = settingsButton
         
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+           let backItem = UIBarButtonItem()
+           backItem.title = "Profile"
+           navigationItem.backBarButtonItem = backItem
+       }
     
     @objc func logOutButtonPressed(sender: UIBarButtonItem) {
         do {

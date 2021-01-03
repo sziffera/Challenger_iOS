@@ -20,12 +20,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        createAnAccountButton.layer.cornerRadius = 5
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationItem.titleView?.tintColor = .white
-        
+      
         let gradientLayer = CAGradientLayer()
         
         gradientLayer.frame = view.bounds
@@ -82,15 +77,4 @@ class RegisterViewController: UIViewController {
             generator.notificationOccurred(.error)
         }
     }
-  
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

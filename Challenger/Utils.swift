@@ -34,12 +34,24 @@ extension Double {
         return String(format: "%.\(f)f", self)
     }
     
-    func speed() -> String {
+    func speedFromMs() -> String {
         return String(format: "%.1f", self * 3.6) + " km/h"
     }
     
+    func speed() -> String {
+        return String(format: "%.1f", self) + " km/h"
+    }
+    
+    func kmFromMetres() -> String {
+        return String(format: "%.2f", self / 1000) + " km"
+    }
+    
     func km() -> String {
-        return String(format: "%.1f", self / 1000) + " km"
+        return String(format: "%.2f", self) + " km"
+    }
+    
+    func rpm() -> String {
+        return String(format: "%.0f", self) + " RPM"
     }
     
     func toTime() -> String {
@@ -49,10 +61,35 @@ extension Double {
         let seconds = Int(self) % 60
         return String(format:"%02i:%02i:%02i", hours, minutes, seconds)
     }
+    
+    func toPace() -> String {
+        let minutes = Int(self) / 60 % 60
+        let seconds = Int(self) % 60
+        return String(format: "%02i:%02i", minutes, seconds)
+    }
 }
 
 extension Notification.Name {
     static let challengeDataUpdate = Notification.Name("challengeDataUpdate")
     static let challangeMapUpdate = Notification.Name("challengeMapUpdate")
+    static let cadenceDataUpdated =
+        Notification.Name("cadenceDataUpdated")
 }
-
+struct MovingAverage {
+  var period: Int
+  var numbers = [Double]()
+ 
+  mutating func addNumber(_ n: Double) -> Double {
+    numbers.append(n)
+ 
+    if numbers.count > period {
+      numbers.removeFirst()
+    }
+ 
+    guard !numbers.isEmpty else {
+      return 0
+    }
+ 
+    return numbers.reduce(0, +) / Double(numbers.count)
+  }
+}

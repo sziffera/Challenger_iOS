@@ -17,19 +17,20 @@ import UIKit
 protocol HeartRateSensorConnectionDelegate: class {
     func didStartScan()
     func didConnectToSensor()
+    func heartRateSensorScanTimeout()
 }
 
-// MARK:- HeartRateSensorUpdateDelegate
-protocol HeartRateSensorUpdateDelegate: class {
-    func didUpdateHeartRate(_ bpm: Int, color: UIColor)
-}
+//// MARK:- HeartRateSensorUpdateDelegate
+//protocol HeartRateSensorUpdateDelegate: class {
+//    func didUpdateHeartRate(_ bpm: Int, color: UIColor)
+//}
 
 // MARK:- HearRateSensorConnection Class
 class HearRateSensorConnection: NSObject {
     
     /// delegates
     weak var connectionDelegate: HeartRateSensorConnectionDelegate?
-    weak var updateDelegate: HeartRateSensorUpdateDelegate?
+    //weak var updateDelegate: HeartRateSensorUpdateDelegate?
     
     private var centralManager: CBCentralManager!
     private var heartRatePeripheral: CBPeripheral!
@@ -48,40 +49,36 @@ class HearRateSensorConnection: NSObject {
         self.centralManager = CBCentralManager(delegate: self, queue: nil)
     }
     
-    func stop() {
-        if heartRateCharacteristic != nil {
-            heartRatePeripheral.setNotifyValue(false, for: heartRateCharacteristic!)
-        }
-    }
-    
-    func disconnect() {
-        centralManager.cancelPeripheralConnection(heartRatePeripheral)
-        ChallengeManager.shared.heartRateSensorDidDisConnect()
-    }
+     func startScan() {
+           if centralManager.isScanning {
+               
+               centralManager.stopScan()
+           }
+           centralManager.scanForPeripherals(withServices: [heartRateServiceCBUUID])
+           connectionDelegate?.didStartScan()
+        
+           DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+               if self.centralManager.isScanning {
+                   
+                   self.centralManager.stopScan()
+                   self.connectionDelegate?.heartRateSensorScanTimeout()
+               }
+           }
+       }
+       
+       func disconnect() {
+           if connected {
+               centralManager.cancelPeripheralConnection(heartRatePeripheral)
+               ChallengeManager.shared.cadenceSensorDidDisConnect()
+               connected = false
+           }
+       }
     
 }
 // MARK:- CBCentralManagerDelegate
 extension HearRateSensorConnection: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        switch central.state {
-        case .unknown:
-            print("central.state is .unknown")
-        case .resetting:
-            print("central.state is .resetting")
-        case .unsupported:
-            print("central.state is .unsupported")
-        case .unauthorized:
-            print("central.state is .unauthorized")
-        case .poweredOff:
-            print("central.state is .poweredOff")
-        case .poweredOn:
-            print("central.state is .poweredOn")
-            centralManager.scanForPeripherals(withServices: [heartRateServiceCBUUID])
-            connectionDelegate?.didStartScan()
-            
-        @unknown default:
-            print("Unknown")
-        }
+        print(central.state)
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -94,6 +91,9 @@ extension HearRateSensorConnection: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         
         heartRatePeripheral.discoverServices([heartRateServiceCBUUID])
+        connected = true
+        ChallengeManager.shared.heartRateSensorDidConnect()
+        connectionDelegate?.didConnectToSensor()
         
     }
 }
@@ -110,10 +110,6 @@ extension HearRateSensorConnection: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService,
                     error: Error?) {
         guard let characteristics = service.characteristics else { return }
-        
-        connected = true
-        ChallengeManager.shared.heartRateSensorDidConnect()
-        connectionDelegate?.didConnectToSensor()
         
         for characteristic in characteristics {
             print(characteristic)
@@ -146,7 +142,8 @@ extension HearRateSensorConnection: CBPeripheralDelegate {
     
     /// updates the ui with the new bpm value
     private func onHeartRateReceived(_ bpm: Int) {
-        updateDelegate?.didUpdateHeartRate(bpm, color: getColorForBpm(bpm))
+        //updateDelegate?.didUpdateHeartRate(bpm, color: getColorForBpm(bpm))
+        NotificationCenter.default.post(name: .hearRateDataUpdated, object: bpm)
     }
     
     /// returns with the location of the heart rate sensor
@@ -180,25 +177,6 @@ extension HearRateSensorConnection: CBPeripheralDelegate {
             // Heart Rate Value Format is in the 2nd and 3rd bytes
             return (Int(byteArray[1]) << 8) + Int(byteArray[2])
         }
-    }
-    
-    private func getColorForBpm(_ bpm: Int) -> UIColor {
-        
-        switch bpm {
-        case 98...116:
-            return UIColor(named: K.Color.moderate)!
-        case 117...136:
-            return UIColor(named: K.Color.weightControl)!
-        case 137...155:
-            return UIColor(named: K.Color.aerobic)!
-        case 156...175:
-            return UIColor(named: K.Color.anaerobic)!
-        case 176...195:
-            return UIColor(named: K.Color.vo2max)!
-        default:
-            return UIColor(named: K.Color.recording)!
-        }
-        
     }
     
 }

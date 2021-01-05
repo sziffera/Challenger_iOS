@@ -117,6 +117,12 @@ class RecorderInitViewController: UIViewController {
     
     
     @objc func cancelButtonPressed(sender: UIBarButtonItem) {
+        if ChallengeManager.shared.cadenceSensorConnected {
+            SpeedCadenceSensorConnection.shared.disconnect()
+        }
+        if ChallengeManager.shared.heartRateSensorConnected {
+            HearRateSensorConnection.shared.disconnect()
+        }
         self.performSegue(withIdentifier: "CancelRecorderSettings", sender: nil)
     }
     

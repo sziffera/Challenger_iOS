@@ -18,6 +18,6 @@ struct ChallengeData: Codable {
     let ms: Double
     let name: String
     let routeAsString: String
-    let type: String    
+    let type: String
 }
 

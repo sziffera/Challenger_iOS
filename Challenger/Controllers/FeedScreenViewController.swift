@@ -166,9 +166,9 @@ extension FeedScreenViewController: SwipeTableViewCellDelegate {
 
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             // handle action by updating model with deletion
-            let challengeName = self.challenges![indexPath.row].name
+            //let challengeName = self.challenges![indexPath.row].name
             ChallengeManager.shared.delete(challenge: self.challenges![indexPath.row])
-            Utils.showToast(controller: self, message: "Challenge \(challengeName) was deleted successfully!", seconds: 2)
+            //Utils.showToast(controller: self, message: "Challenge \(challengeName) was deleted successfully!", seconds: 1.5)
             //haptic feedback
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.success)

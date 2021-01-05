@@ -33,6 +33,8 @@ class ChallengeRecordingViewController: UIViewController {
         
         LocationTracking.sharedInstance.startTracking()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(challengeDataUpdated(_:)), name: .challengeDataUpdate, object: nil)
+        
         mountainImageView.tintColor = UIColor(named: K.Color.recording)
         
         /// if it's not a challange, hiding the difference label
@@ -47,17 +49,17 @@ class ChallengeRecordingViewController: UIViewController {
             self.navigationItem.leftBarButtonItem = nil
         }
         
-        /// setting the delegates to receive updates from sensors
+        /// setting the notification listeners to receive updates from sensors
         if ChallengeManager.shared.heartRateSensorConnected {
-            HearRateSensorConnection.shared.updateDelegate = self
+            //HearRateSensorConnection.shared.updateDelegate = self
+            NotificationCenter.default.addObserver(self, selector: #selector(heartRateDataUpdated(_:)), name: .hearRateDataUpdated, object: nil)
         }
         if ChallengeManager.shared.cadenceSensorConnected {
-            SpeedCadenceSensorConnection.shared.updateDelegate = self
+            //SpeedCadenceSensorConnection.shared.updateDelegate = self
+            NotificationCenter.default.addObserver(self, selector: #selector(cadenceDataUpdated(_:)), name: .cadenceDataUpdated, object: nil)
         }
-        
     }
-    
-    
+        
     /// updating the UI based on the received data from LocationTracking
     @objc func challengeDataUpdated(_ notification: NSNotification) {
         
@@ -87,6 +89,16 @@ class ChallengeRecordingViewController: UIViewController {
             self.maxSpeedLabel.text = maxSpeed.speedFromMs()
         }
     }
+    //MARK:- Notification handling from sensors
+    @objc func cadenceDataUpdated(_ notification: NSNotification) {
+        guard let rpm = notification.object as? Double else { return }
+        rpmLabel.text = rpm.rpm()
+    }
+    @objc func heartRateDataUpdated(_ notification: NSNotification) {
+        guard let bpm = notification.object as? Int else { return }
+        heartRatelabel.text = String(bpm)
+        heartRatelabel.textColor = Utils.getColorForBpm(bpm)
+    }
     
     private func finishRecording() {
         LocationTracking.sharedInstance.finishRecording()
@@ -99,7 +111,7 @@ class ChallengeRecordingViewController: UIViewController {
             HearRateSensorConnection.shared.disconnect()
         }
     }
-    
+    //MARK:- Buttons press handling
     @IBAction func stopButtonPressed(_ sender: UIBarButtonItem) {
         finishRecording()
     }
@@ -121,15 +133,15 @@ class ChallengeRecordingViewController: UIViewController {
     }
 }
 
-extension ChallengeRecordingViewController: HeartRateSensorUpdateDelegate {
-    func didUpdateHeartRate(_ bpm: Int, color: UIColor) {
-        heartRatelabel.text = String(bpm)
-        heartRatelabel.textColor = color
-    }
-}
+//extension ChallengeRecordingViewController: HeartRateSensorUpdateDelegate {
+//    func didUpdateHeartRate(_ bpm: Int, color: UIColor) {
+//        heartRatelabel.text = String(bpm)
+//        heartRatelabel.textColor = color
+//    }
+//}
 
-extension ChallengeRecordingViewController: CadenceSensorUpdateDelegate {
-    func didUpdateRpm(_ rpm: Double) {
-        rpmLabel.text = rpm.rpm()
-    }
-}
+//extension ChallengeRecordingViewController: CadenceSensorUpdateDelegate {
+//    func didUpdateRpm(_ rpm: Double) {
+//        rpmLabel.text = rpm.rpm()
+//    }
+//}

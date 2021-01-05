@@ -14,10 +14,11 @@ import UIKit
 class LocationTracking: NSObject {
     
     static var sharedInstance = LocationTracking()
+    
+    //unused
     private var filter: Bool = true
     
     private var locationManager: CLLocationManager = CLLocationManager()
-    
     
     private var route: [MyLocation]?
     private var lastLocation: CLLocation?
@@ -25,6 +26,7 @@ class LocationTracking: NSObject {
     //for drawing the route onto the map
     private var polylineRoute: [CLLocationCoordinate2D]?
     
+    // start time
     private var start: Double = 0.0
     
     private var distance: Double = 0.0 /// in metres
@@ -34,7 +36,9 @@ class LocationTracking: NSObject {
     private var speed: Double = 0.0 /// in m/s
     private var difference: Double = 0.0
     private var maxSpeed: Double = 0.0 /// in m/s
-    //private var cadence: Int = 0 /// in rpm
+    
+    private var cadence: Int = -1 /// in rpm -1 if not set
+    private var heartRate: Int = -1 /// in bpm -1 if not set
     
     private var movingAverage: MovingAverage = MovingAverage(period: 4)
     
@@ -65,6 +69,10 @@ class LocationTracking: NSObject {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(heartRateDataUpdated(_:)), name: .hearRateDataUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(cadenceDataUpdated(_:)), name: .cadenceDataUpdated, object: nil)
+        
         
         route = [MyLocation]()
         polylineRoute = [CLLocationCoordinate2D]()
@@ -120,6 +128,8 @@ class LocationTracking: NSObject {
      */
     func finishRecording() {
         
+        locationManager.stopUpdatingLocation()
+        
         DispatchQueue.main.async {
             let avgSpeed = (self.distance / self.duration) * 3.6
             print(avgSpeed)
@@ -130,13 +140,33 @@ class LocationTracking: NSObject {
             let date = formatter.string(from: now)
             
             let firebaseId = UUID().uuidString
-            let challenge = Challenge(name: "test realm", date: date, firebaseId: firebaseId, averageSpeed: avgSpeed, maxSpeed: self.maxSpeed*3.6, distance: self.distance / 1000, duration: self.duration, type: AppSettings.stringValue(.activityType) ?? "cycling")
+            let challenge = Challenge(name: "new realm test", date: date, firebaseId: firebaseId, averageSpeed: avgSpeed, maxSpeed: self.maxSpeed*3.6, distance: self.distance / 1000, duration: self.duration, type: AppSettings.stringValue(.activityType) ?? "cycling")
             challenge.route.append(objectsIn: self.route ?? [])
             
             ChallengeManager.shared.save(challenge: challenge)
             
         }
+        //resetting state
         timer = nil
+        
+        
+        //        route = [MyLocation]()
+        //        polylineRoute = [CLLocationCoordinate2D]()
+        //        maxSpeed = 0.0
+        //        lastLocation = nil
+        //        zeroSpeedPauseTime = 0.0
+        //        distance = 0.0
+        //        duration = 0.0
+        //        durationHelper = 0.0
+        //        altitude = 0.0
+        //        speed = 0.0
+        //        difference = 0.0
+        //        maxSpeed = 0.0
+        //        cadence = 0
+        //        heartRate = 0
+        //        movingAverage = MovingAverage(period: 4)
+        //        counter = 0
+        //        locationsGot = 0
     }
     
     private func updateUI() {
@@ -157,7 +187,7 @@ class LocationTracking: NSObject {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "TurnOnLocationServicesAlert"), object: nil)
     }
     
-    // MARK: app state changes
+    // MARK:- app state changes
     @objc func appMovedToBackground() {
         print("app enters background")
         shouldUpdateView = false
@@ -168,16 +198,17 @@ class LocationTracking: NSObject {
         shouldUpdateView = true
     }
     
-    //    FOR LATER USAGE
-    //    // MARK: cadence data notification
-    //    @objc func cadenceDataUpdated(_ notification: NSNotification) {
-    //
-    //        guard let cadence = notification.object as? Double else {return}
-    //
-    //
-    //
-    //    }
-    //
+    // MARK:- sensor notifications
+    @objc func cadenceDataUpdated(_ notification: NSNotification) {
+        guard let rpm = notification.object as? Double else {return}
+        self.cadence = Int(rpm)
+    }
+    
+    @objc func heartRateDataUpdated(_ notification: NSNotification) {
+        guard let bpm = notification.object as? Int else {return}
+        self.heartRate = bpm
+    }
+    
     
 }
 // MARK: Location handling
@@ -189,9 +220,8 @@ extension LocationTracking: CLLocationManagerDelegate {
             //handling new location
             if lastLocation != nil {
                 handleNewLocation(newLocation)
-                //updating the location
-                
             }
+            //updating the location
             lastLocation = newLocation
         }
     }
@@ -223,9 +253,10 @@ extension LocationTracking: CLLocationManagerDelegate {
             duration = Date.timeIntervalSinceReferenceDate - start + durationHelper
             distance += newLocation.distance(from: lastLocation!)
             
+            // corrected altitude is the moving average of the last n locations -> filters out errors
             let correctedAltitude = movingAverage.addNumber(newLocation.altitude)
             
-            myLocation = MyLocation(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude, distance: distance, time: duration, speed: newLocation.speed, altitude: correctedAltitude)
+            myLocation = MyLocation(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude, distance: distance, time: duration, speed: newLocation.speed, altitude: correctedAltitude, bpm: heartRate, rpm: cadence)
             
             if locationsGot % whenToSaveLocation == 0 {
                 print("locations saved")

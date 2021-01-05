@@ -365,8 +365,8 @@
                                         <color key="textColor" name="ColorRecording"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="VFK-Ui-54u">
-                                        <rect key="frame" x="55.5" y="466" width="224.5" height="46.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="VFK-Ui-54u">
+                                        <rect key="frame" x="48.5" y="466" width="238.5" height="46.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-- RPM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSp-Vz-BFO">
                                                 <rect key="frame" x="0.0" y="0.0" width="92" height="46.5"/>
@@ -375,7 +375,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b6p-93-6Xf">
-                                                <rect key="frame" x="112" y="0.0" width="112.5" height="46.5"/>
+                                                <rect key="frame" x="126" y="0.0" width="112.5" height="46.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-- BPM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8od-cN-Eua">
                                                         <rect key="frame" x="0.0" y="0.0" width="92" height="46.5"/>

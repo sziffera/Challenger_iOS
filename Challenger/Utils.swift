@@ -27,6 +27,22 @@ struct Utils {
             alert.dismiss(animated: true, completion: nil)
         }
     }
+    static func getColorForBpm(_ bpm: Int) -> UIColor {
+        switch bpm {
+        case 98...116:
+            return UIColor(named: K.Color.moderate)!
+        case 117...136:
+            return UIColor(named: K.Color.weightControl)!
+        case 137...155:
+            return UIColor(named: K.Color.aerobic)!
+        case 156...175:
+            return UIColor(named: K.Color.anaerobic)!
+        case 176...195:
+            return UIColor(named: K.Color.vo2max)!
+        default:
+            return UIColor(named: K.Color.recording)!
+        }
+    }
 }
 // MARK:- Extensions for Double class
 extension Double {
@@ -35,7 +51,12 @@ extension Double {
     }
     
     func speedFromMs() -> String {
-        return String(format: "%.1f", self * 3.6) + " km/h"
+        let speed = self * 3.6
+        if speed <= 0 {
+            return "0.0 km/h"
+        } else {
+            return String(format: "%.1f", speed) + " km/h"
+        }
     }
     
     func speed() -> String {
@@ -55,7 +76,9 @@ extension Double {
     }
     
     func toTime() -> String {
-        
+        if self.isNaN || self.isInfinite {
+            return "NaN"
+        }
         let hours = Int(self) / 3600
         let minutes = Int(self) / 60 % 60
         let seconds = Int(self) % 60
@@ -63,6 +86,9 @@ extension Double {
     }
     
     func toPace() -> String {
+        if self.isNaN || self.isInfinite {
+            return "NaN"
+        }
         let minutes = Int(self) / 60 % 60
         let seconds = Int(self) % 60
         return String(format: "%02i:%02i", minutes, seconds)
